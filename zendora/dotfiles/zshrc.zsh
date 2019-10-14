@@ -135,7 +135,7 @@ setopt SHARE_HISTORY
 # Command prompt
 #-----------------------------------------------------------------------------
 
-PS1="%F{red}%m%F{default}:%n %F{blue}%~%%%F{default} "
+PS1="%F{red}%m%F{default}:%n %F{green}%~%%%F{default} "
 PS2="%_ "
 RPROMPT="[%T]"
 
