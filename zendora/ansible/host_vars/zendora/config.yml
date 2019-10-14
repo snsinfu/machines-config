@@ -27,7 +27,7 @@ required_packages:
   - nmap-ncat
   - strace
   - vagrant
-  - virtualbox
+  - VirtualBox
 
   # Languages
   - elixir
@@ -56,7 +56,7 @@ required_packages:
   # Misc apps
   - audacity
   - firefox
-  - gqview
+  - geeqie
   - inkscape
   - krita
   - lmms
