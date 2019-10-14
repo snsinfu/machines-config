@@ -1,0 +1,64 @@
+required_packages:
+  # System utilities
+  - kernel-tools  # cpupower
+  - lm_sensors    # sensors
+
+  # Shell utilities
+  - fzf
+  - htop
+  - lzip
+  - mosh
+  - ripgrep
+  - tmux
+  - vim-enhanced
+  - zsh
+
+  # Development
+  - "@development tools"
+  - "@c development tools and libraries"
+  - ansible
+  - cmake
+  - git
+  - jq
+  - kubernetes-client
+  - moby-engine   # Docker-CE
+  - nmap
+  - nmap-ncat
+  - strace
+  - vagrant
+  - virtualbox
+
+  # Languages
+  - elixir
+  - erlang
+  - golang
+  - nodejs
+  - nodejs-yarn
+  - poetry
+
+  # Contents conversion
+  - ffmpeg
+  - GraphicsMagick
+  - mplayer
+  - sox
+
+  # Basic X support
+  - "@fonts"
+  - "@hardware support"
+  - "@standard"
+  - "@multimedia"
+  - "@base-x"
+  - qtile
+  - xterm
+  - rxvt-unicode
+
+  # Misc apps
+  - audacity
+  - firefox
+  - gqview
+  - inkscape
+  - krita
+  - lmms
+  - lyx
+  - mtpaint
+  - steam

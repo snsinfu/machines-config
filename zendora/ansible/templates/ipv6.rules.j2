@@ -1,0 +1,13 @@
+* filter
+
+:INPUT   DROP
+:OUTOUT  ACCEPT
+:FORWARD DROP
+
+# Loopback is open
+-A INPUT -j ACCEPT -i lo
+
+# Allowed inbound packets
+-A INPUT -j ACCEPT -p icmp
+
+COMMIT

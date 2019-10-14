@@ -1,0 +1,19 @@
+* filter
+
+:INPUT   DROP
+:OUTOUT  ACCEPT
+:FORWARD DROP
+
+# Loopback is open
+-A INPUT -j ACCEPT -i lo
+
+# Standard stateful firewall
+-A INPUT -j ACCEPT -m state ESTABLISHED,RELATED
+-A INPUT -j DROP   -m state INVALID
+
+# Allowed inbound packets
+-A INPUT -j ACCEPT -p icmp
+-A INPUT -j ACCEPT -p tcp --dport ssh  -i {{ PIF }} -m state --state NEW
+-A INPUT -j ACCEPT -p tcp --dport 8888 -i {{ PIF }} -m state --state NEW
+
+COMMIT

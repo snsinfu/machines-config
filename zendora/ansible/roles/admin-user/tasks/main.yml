@@ -1,0 +1,17 @@
+- name: admin user group is added
+  group:
+    name: "{{ admin_user }}"
+    state: present
+
+- name: admin user is added
+  user:
+    name: "{{ admin_user }}"
+    group: "{{ admin_user }}"
+    groups: users,wheel
+    password: "{{ admin_pass | password_hash('sha512') }}"
+    state: present
+
+- name: admin user keys are inserted
+  authorized_key:
+    user: "{{ admin_user }}"
+    key: "{{ admin_pubkeys | join('\n') }}"

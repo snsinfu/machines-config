@@ -1,0 +1,9 @@
+- hosts: zendora
+  become: yes
+
+  roles:
+    - ssh-server
+    - admin-user
+    - firewall
+    - packages
+    - nvidia
