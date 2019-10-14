@@ -1,15 +1,15 @@
 * filter
 
 :INPUT   DROP
-:OUTOUT  ACCEPT
+:OUTPUT  ACCEPT
 :FORWARD DROP
 
 # Loopback is open
 -A INPUT -j ACCEPT -i lo
 
 # Standard stateful firewall
--A INPUT -j ACCEPT -m state ESTABLISHED,RELATED
--A INPUT -j DROP   -m state INVALID
+-A INPUT -j ACCEPT -m state --state ESTABLISHED,RELATED
+-A INPUT -j DROP   -m state --state INVALID
 
 # Allowed inbound packets
 -A INPUT -j ACCEPT -p icmp
