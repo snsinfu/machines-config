@@ -1,3 +1,10 @@
 .*
 _*
 !.gitignore
+
+# vim directories
+autoload/
+backup/
+plugins/
+swap/
+undo/
