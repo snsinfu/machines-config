@@ -1,0 +1,304 @@
+"------------------------------------------------------------------------------
+" Reset to neovim defaults
+"------------------------------------------------------------------------------
+
+if !has("nvim")
+  " See: https://neovim.io/doc/user/vim_diff.html
+
+  silent !mkdir -p ~/.vim/backup
+  silent !mkdir -p ~/.vim/swap
+  silent !mkdir -p ~/.vim/undo
+
+  syntax on
+  filetype plugin indent on
+
+  set background=dark
+  set backspace=indent,eol,start
+  set backupdir=.,~/.vim/backup
+  set belloff=all
+  set nocompatible
+  set complete-=i
+  set cscopeverbose
+  set directory=~/.vim/swap//
+  set display=lastline,msgsep
+  set encoding=utf-8
+  set fillchars=vert:│,fold:·
+  set formatoptions=tcqj
+  set nofsync
+  set history=10000
+  set hlsearch
+  set incsearch
+  set langnoremap
+  set nolangremap
+  set laststatus=2
+  set listchars=tab:>\ ,trail:-,nbsp:+
+  set nrformats=bin,hex
+  set ruler
+  set sessionoptions-=options
+  set shortmess+=F
+  set shortmess-=S
+  set showcmd
+  set sidescroll=1
+  set smarttab
+  set tabpagemax=50
+  set tags=./tags;,tags
+  set ttimeoutlen=50
+  set ttyfast
+  set undodir=~/.vim/undo
+  set viminfo+=!
+  set wildmenu
+  set wildoptions=pum,tagfile
+endif
+
+"------------------------------------------------------------------------------
+" vim-plug
+"------------------------------------------------------------------------------
+
+if has('nvim')
+  let s:vim_dir = fnamemodify($MYVIMRC, ':h')
+else
+  let s:vim_dir = fnamemodify($MYVIMRC, ':h') . '/.vim'
+endif
+
+let s:plugin_dir = s:vim_dir . '/plugins'
+let s:vimplug = s:vim_dir . '/autoload/plug.vim'
+let s:vimplug_uri = 'https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+if empty(glob(s:vimplug))
+  execute '!curl -fsSLo ' . s:vimplug . ' --create-dirs ' . s:vimplug_uri
+  source $MYVIMRC
+endif
+
+call plug#begin(s:plugin_dir)
+  " Vim extension
+  Plug 'kana/vim-operator-user'
+
+  " Colorscheme
+  Plug 'tomasr/molokai'
+
+  " Editing support
+  Plug 'easymotion/vim-easymotion'
+  Plug 'junegunn/vim-easy-align'
+  Plug 'matze/vim-move'
+  Plug 'tpope/vim-surround'
+  Plug 'vim-scripts/vim-auto-save'
+
+  " Search and completion
+  Plug 'Raimondi/delimitMate'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'haya14busa/incsearch-fuzzy.vim'
+  Plug 'haya14busa/incsearch.vim'
+
+  " Tools integration
+  Plug 'airblade/vim-gitgutter'
+  Plug 'jremmen/vim-ripgrep'
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  Plug 'rhysd/vim-clang-format'
+  Plug 'snsinfu/vim-autocommit'
+  Plug 'tpope/vim-fugitive'
+
+  " Source code analysis
+  Plug 'majutsushi/tagbar'
+  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+
+  " Syntax
+  Plug 'hashivim/vim-vagrant'
+  Plug 'sheerun/vim-polyglot'
+call plug#end()
+
+" Auto-install missing plugins
+au VimEnter *
+ \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+ \|   PlugInstall --sync | q
+ \| endif
+
+"------------------------------------------------------------------------------
+" File operations
+"------------------------------------------------------------------------------
+
+set cpoptions+=W
+set hidden
+
+" vim-auto-save
+let g:auto_save = 1
+let g:auto_save_in_insert_mode = 0
+
+" fzf
+let g:fzf_command_prefix = 'Fzf'
+
+nmap F :FzfFiles<cr>
+cabbrev F FzfFiles
+
+" vim-autocommit
+let g:autocommit_branch_prefix = 'wip-'
+let g:autocommit_on_save = 0
+nmap + :AutoCommit<cr>
+
+"------------------------------------------------------------------------------
+" User interface
+"------------------------------------------------------------------------------
+
+set mouse=a
+set visualbell
+set timeoutlen=100
+set cmdheight=2
+set statusline=
+set statusline+=<%n>        " buffer number
+set statusline+=\ %<%f      " file path
+set statusline+=\ %h%w%m%r  " [HELP][Preview][+][RO]
+set statusline+=%=          " right align
+set statusline+=%c,         " cursor position (column)
+set statusline+=%l/%L       " cursor position (line)
+set statusline+=\ %P        " percent position
+set wildmode=full
+set wildignore=
+set showmatch
+set number
+set list
+set listchars=tab:^\ ,trail:-,extends:>,precedes:<,nbsp:%
+set showbreak="+++ "
+set colorcolumn=80,100
+set lazyredraw
+
+" Override molokai palette
+au ColorScheme molokai hi Normal           ctermbg=none
+au ColorScheme molokai hi cStorageClass    ctermfg=170
+au ColorScheme molokai hi cStructure       ctermfg=75
+au ColorScheme molokai hi cType            ctermfg=161
+au ColorScheme molokai hi cppAuto          ctermfg=161
+au ColorScheme molokai hi cppConst         ctermfg=104
+au ColorScheme molokai hi cppConstexpr     ctermfg=136
+au ColorScheme molokai hi cppNamespaceStd  ctermfg=241
+au ColorScheme molokai hi cppReceiver      ctermfg=110
+au ColorScheme molokai hi myStandout       ctermfg=82
+au ColorScheme molokai hi myShadow         ctermfg=60
+au ColorScheme molokai hi mySmell          ctermfg=1 cterm=bold
+
+colorscheme molokai
+
+"------------------------------------------------------------------------------
+" Indent
+"------------------------------------------------------------------------------
+
+set tabstop=8
+set softtabstop=4
+set shiftwidth=4
+set expandtab
+set smartindent
+
+" set cinoptions+=L0.5s        " half-indent jump labels
+" set cinoptions+=:0.5s,=0.5s  " half-indent case labels
+" set cinoptions+=g0.5s,h0.5s  " half-indent member access specifiers
+
+set cinoptions+=L0s      " unindent jump labels
+set cinoptions+=:0s,=1s  " unindent case labels
+set cinoptions+=g0s,h1s  " unindent member access specifiers
+
+au FileType vim        setlocal sw=2
+au FileType css        setlocal sw=2
+au FileType javascript setlocal sw=2 cindent
+au FileType html,riot  setlocal sw=2
+au FileType scheme     setlocal sw=2
+au FileType go         setlocal noet sw=4 ts=4
+au FileType c          setlocal cindent
+au FileType cpp        setlocal cindent
+au FileType rust       setlocal cindent
+au FileType pony       setlocal sw=2 sts=2
+au FileType yaml       setlocal sw=2 sts=2
+au FileType ruby       setlocal sw=2 sts=2
+
+" vim-easy-align
+xmap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
+"-----------------------------------------------------------------------------
+" Completion
+"-----------------------------------------------------------------------------
+
+" coc.nvim
+
+set updatetime=300
+
+au CursorHold  * silent call CocActionAsync('highlight')
+au CursorHoldI * silent call CocActionAsync('showSignatureHelp')
+
+nmap <silent><buffer> <C-h>
+  \ :call CocLocations('ccls', '$ccls/navigate', { 'direction': 'U' })<cr>
+nmap <silent><buffer> <C-j>
+  \ :call CocLocations('ccls', '$ccls/navigate', { 'direction': 'R' })<cr>
+nmap <silent><buffer> <C-k>
+  \ :call CocLocations('ccls', '$ccls/navigate', { 'direction': 'L' })<cr>
+nmap <silent><buffer> <C-l>
+  \ :call CocLocations('ccls', '$ccls/navigate', { 'direction': 'D' })<cr>
+
+nmap <silent> <space> <Plug>(coc-definition)
+nmap <silent> K       :call CocActionAsync('doHover')<cr>
+
+" Tweak color
+hi! CocErrorFloat   ctermfg=White ctermbg=Red
+hi! CocWarningFloat ctermfg=White ctermbg=Brown
+hi! CocUnderline    ctermbg=Brown
+
+"------------------------------------------------------------------------------
+" Motion
+"------------------------------------------------------------------------------
+
+nmap <Up>      :bp<CR>
+nmap <Down>    :bn<CR>
+nmap <Left>    <C-O>
+nmap <Right>   <C-I>
+nmap <C-Left>  :pop<CR>
+nmap <C-Right> :tag<CR>
+nmap <C-j>     <C-d>
+nmap <C-k>     <C-u>
+
+" vim-easymotion
+let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_smartcase = 1
+
+nmap ,         <Plug>(easymotion-overwin-f2)
+map  <Leader>j <Plug>(easymotion-j)
+map  <Leader>k <Plug>(easymotion-k)
+
+" vim-move
+let g:move_key_modifier = 'M'
+
+"------------------------------------------------------------------------------
+" Search
+"------------------------------------------------------------------------------
+
+set ignorecase
+set smartcase
+
+" incsearch.vim
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+
+let g:incsearch#auto_nohlsearch = 1
+map n  <Plug>(incsearch-nohl-n)
+map N  <Plug>(incsearch-nohl-N)
+map *  <Plug>(incsearch-nohl-*)
+map #  <Plug>(incsearch-nohl-#)
+map g* <Plug>(incsearch-nohl-g*)
+map g# <Plug>(incsearch-nohl-g#)
+
+" incsearch-fuzzy.vim
+map z/  <Plug>(incsearch-fuzzy-/)
+map z?  <Plug>(incsearch-fuzzy-?)
+map zg/ <Plug>(incsearch-fuzzy-g/)
+
+"------------------------------------------------------------------------------
+" Tools
+"------------------------------------------------------------------------------
+
+" tagbar
+nmap <F8> :TagbarToggle<CR>
+
+" vim-gitgutter
+nmap <F9> :GitGutterStageHunk<CR>
+
+" vim-clang-format
+let g:clang_format#detect_style_file = 1
+nmap <F10> <Plug>(operator-clang-format)
