@@ -13,7 +13,8 @@
 
 # Allowed inbound packets
 -A INPUT -j ACCEPT -p icmp
--A INPUT -j ACCEPT -p tcp --dport ssh  -i {{ PIF }} -m state --state NEW
--A INPUT -j ACCEPT -p tcp --dport 8888 -i {{ PIF }} -m state --state NEW
+-A INPUT -j ACCEPT -p tcp --dport ssh         -i {{ PIF }} -m state --state NEW
+-A INPUT -j ACCEPT -p tcp --dport 8888        -i {{ PIF }} -m state --state NEW
+-A INPUT -j ACCEPT -p udp --dport 60000:60003 -i {{ PIF }} -m state --state NEW
 
 COMMIT
