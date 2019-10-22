@@ -1,4 +1,4 @@
-export EDITOR=vim
+export EDITOR=vi
 export PAGER=less
 
 # Miniconda
